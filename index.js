@@ -164,6 +164,8 @@ document.addEventListener('keydown', logKey);
 document.addEventListener('keyup', goUp);
 document.addEventListener('mousedown', logKey);
 document.addEventListener('mouseup', goUp);
+document.addEventListener('touchstart', logKey);
+document.addEventListener('touchend', goUp);
 
 function goUp(e){
 	var key = `${e.code}`
