@@ -162,12 +162,14 @@ const drawImageRot = (ctx, img, x, y, width, height, deg) => {
 
 document.addEventListener('keydown', logKey);
 document.addEventListener('keyup', goUp);
+document.addEventListener('mousedown', logKey);
+document.addEventListener('mouseup', goUp);
 
 function goUp(e){
 	var key = `${e.code}`
-	if(key == 'Space'){
+	//if(key == 'Space'){
 		force = false;
-	}
+	//}
 }
 
 function logKey(e){    
