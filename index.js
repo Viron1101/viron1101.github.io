@@ -162,10 +162,10 @@ const drawImageRot = (ctx, img, x, y, width, height, deg) => {
 
 document.addEventListener('keydown', logKey);
 document.addEventListener('keyup', goUp);
-document.addEventListener('mousedown', logKey);
-document.addEventListener('mouseup', goUp);
-document.addEventListener('touchstart', logKey);
-document.addEventListener('touchend', goUp);
+canvas.addEventListener('mousedown', logKey);
+canvas.addEventListener('mouseup', goUp);
+canvas.addEventListener('touchstart', logKey);
+canvas.addEventListener('touchend', goUp);
 
 function goUp(e){
 	var key = `${e.code}`
