@@ -45,15 +45,16 @@ class Player{
 		//console.log(speed);
 	}
 	control_xOffset(){
-
-		if(this.rot > 25 && this.xOffset + 5 < this.max_xOffset){
+		var upRot = -20;
+		var downRot = 20;
+		if(this.rot > downRot && this.xOffset + 5 < this.max_xOffset){
 			this.xOffset+=15;
 		}
-		if(this.rot < -5 && this.xOffset - 5 > 0){
-			this.xOffset-=10;
+		if(this.rot < upRot && this.xOffset - 5 > 0){
+			this.xOffset-=30;
 		}
-		if(this.rot >= -5 && this.rot <= 25){
-			this.xOffset+=5
+		if(this.rot >= upRot && this.rot <= downRot){
+			this.xOffset+=8
 		}
 	}	
 	drawCollider(){
