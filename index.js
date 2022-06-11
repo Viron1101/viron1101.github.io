@@ -192,31 +192,21 @@ const player = new Player(img,150,50,200,0);
 
 player.draw();
 function animate(time) {
-
 	ctx.clearRect(0,0,canvas.width,canvas.height)
-	
 	player.update();
-
-
 	//donut collision
 	donuts.forEach((donut,index) => {
 		donut.update();
 		const dist = Math.hypot(donut.collX - player.collX, donut.collY - player.collY);
 		if(dist - donut.collSize - player.collSize < 1){
-
 			console.log("got a donut");
 			//donut.velocity = 0;
 			score += 10;
 			scoreEL.innerHTML = score;
 			console.log(score);
-			donuts.splice(index,1)
-			
+			donuts.splice(index,1)	
 		}
-
 	});
-	
-	
-
 	//console.log('ok');
   	setTimeout(function() {
     	requestAnimationFrame(animate);
