@@ -147,6 +147,11 @@ class Swan{
 		this.height	= innerHeight	*0.25
 		console.log	(this.width,this.height);
 	}
+	draw(){
+		this.img.onload = () => {
+			this.update()
+		}
+	}
 	update(){
 		//drawImageRot = (ctx, img, x, y, width, height, deg)
 		//console.log(this.img,this.x,this.y,this.img.width,this.img.height,this.flip)
@@ -287,7 +292,7 @@ function animate(time) {
 
 	//Swan collision
 	swans.forEach((swan,index) => {
-		swan.update();
+		swan.draw();
 		if(swan.x < canvas.width - canvas.width	*2){
 			swans.splice(index,1)
 		}
