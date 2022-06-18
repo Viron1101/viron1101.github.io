@@ -150,8 +150,9 @@ class Swan{
 	update(){
 		//drawImageRot = (ctx, img, x, y, width, height, deg)
 		//console.log(this.img,this.x,this.y,this.img.width,this.img.height,this.flip)
-
-		drawImageRot(ctx, this.img, this.x, this.y, this.width, this.height	, this.flip);
+		this.img.onload = () => {
+			drawImageRot(ctx, this.img, this.x, this.y, this.width, this.height	, this.flip);
+		}
 		//this.playercollision();
 		if(showColliders){
 			drawRectRot(this.x,this.y,this.width,this.height,this.flip)
