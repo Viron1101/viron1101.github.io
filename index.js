@@ -130,26 +130,90 @@ class Donut{
 		this.y = this.y + this.velocity.y
 		this.drawCollider();
 	}
-	
-
-
 }
+class Swan{
+	constructor(img,y,flip){
+		
+		this.x = innerWidth + innerWidth/2;
+		this.y = y;
+		if(flip == 1){
+			this.flip = 90;
+		}else{
+			this.flip = 270;
+		}
+		this.speed = 5;
+		this.img = img;
+		this.width = innerWidth	*0.5
+		this.height	= innerHeight	*0.25
+		console.log	(this.width,this.height);
+	}
+	update(){
+		//drawImageRot = (ctx, img, x, y, width, height, deg)
+		//console.log(this.img,this.x,this.y,this.img.width,this.img.height,this.flip)
+
+		drawImageRot(ctx, this.img, this.x, this.y, this.width, this.height	, this.flip);
+		//this.playercollision();
+		if(showColliders){
+			drawRectRot(this.x,this.y,this.width,this.height,this.flip)
+		}
+		this.x = this.x - this.speed;
+	}
+}
+
+//images
+const img = new Image();
+img.src = "./PlaneyBoy.jpg";
+
+const imgDonut = new Image();
+imgDonut.src = "./donut.png"
+
+const imgSwan = new Image();
+imgSwan.src = "./swan.png";
+
+const donuts = [];
+const swans = [];
+function ImagesTouching(object1,object2){
+	if (object1.x < object2.x + object2.width  && object1.x + object1.width  > object2.x &&
+			object1.y < object2.y + object2.height && object1.y + object1.height > object2.y) {
+		return true;
+	}
+}
+
 function randomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-const donuts = [];
 
+
+function spawnswans(){
+	setInterval(()=>{
+		var y = 100;
+		var flip = randomInteger(1,2);
+		//flip = 2;
+		flippedMin = canvas.height/2;
+		notFLippedMin = canvas.height*0.1;
+		flipped = [flippedMin*1.1,flippedMin*1.2,flippedMin*1.3,flippedMin*1.4,flippedMin*1.5,flippedMin*1.6,flippedMin*1.7,,flippedMin*1.8,flippedMin*1.9,flippedMin*2];
+		notFlipped	= [notFLippedMin,notFLippedMin*2,0-notFLippedMin*2,0-notFLippedMin*3,0-notFLippedMin*4]
+		if(flip == 1){
+			y = flipped[randomInteger(0,flipped.length - 1)];
+		}else{
+			y = notFlipped[randomInteger(0,notFlipped.length - 1)];
+		}
+		swans.push(new Swan(imgSwan,y,flip))
+		console	.log('Swan Spawned ');
+	},10000)
+}
 function spawnDonuts(){
 	setInterval(()=>{
 		const x = (Math.random() * canvas.width) + innerWidth/2;
 		const y = 0;
-		const size = 100;
+		const size = canvas.height * 0.1;
 		const vy = randomInteger(3,7);
 		const velocity = {
 			x:speed,
 			y:vy
 		}
 		donuts.push(new Donut(imgDonut,x,y,size,velocity))
+
 	},1000)
 }
 const drawImageRot = (ctx, img, x, y, width, height, deg) => {
@@ -158,6 +222,14 @@ const drawImageRot = (ctx, img, x, y, width, height, deg) => {
   ctx.translate(x + width / 2, y + height / 2);
   ctx.rotate(rad);
   ctx.drawImage(img, width / 2 * (-1), height / 2 * (-1), width, height);
+  ctx.restore();
+}
+const drawRectRot = (x, y, width, height, deg) => {
+  ctx.save()
+  const rad = deg * Math.PI / 180;
+  ctx.translate(x + width / 2, y + height / 2);
+  ctx.rotate(rad);
+  ctx.fillRect(width / 2 * (-1), height / 2 * (-1), width, height);
   ctx.restore();
 }
 
@@ -183,17 +255,15 @@ function logKey(e){
 	}
 }
 
-const img = new Image();
-img.src = "./PlaneyBoy.jpg";
 
-const imgDonut = new Image();
-imgDonut.src = "./donut.png"
-const player = new Player(img,150,50,200,0);
+
+const player = new Player(img,150,50,canvas.height	*0.1,0);
 
 player.draw();
 function animate(time) {
 	ctx.clearRect(0,0,canvas.width,canvas.height)
 	player.update();
+
 	//donut collision
 	donuts.forEach((donut,index) => {
 		donut.update();
@@ -205,15 +275,29 @@ function animate(time) {
 			scoreEL.innerHTML = score;
 			console.log(score);
 			donuts.splice(index,1)	
+			if(donut.x < 0){
+				donuts.splice(index,1)
+			}
 		}
 	});
-	//console.log('ok');
-  	setTimeout(function() {
-    	requestAnimationFrame(animate);
-  	}, 1000 / 60);
+
+	//Swan collision
+	swans.forEach((swan,index) => {
+		swan.update();
+		if(swan.x < canvas.width - canvas.width	*2){
+				swans.splice(index,1)
+			}
+	});
+
+
+	
+  setTimeout(function() {
+   	requestAnimationFrame(animate);
+  }, 1000 / 60);
 }
 
-animate()
+animate();
 spawnDonuts();
+spawnswans();
 
 
