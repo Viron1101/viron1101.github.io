@@ -278,6 +278,9 @@ function animate(time) {
 			if(donut.x < 0){
 				donuts.splice(index,1)
 			}
+			if(donuts.length > 5){
+			donuts.splice(0,1)
+			}
 		}
 	});
 
@@ -285,8 +288,12 @@ function animate(time) {
 	swans.forEach((swan,index) => {
 		swan.update();
 		if(swan.x < canvas.width - canvas.width	*2){
-				swans.splice(index,1)
-			}
+			swans.splice(index,1)
+		}
+		if(swans.length > 5){
+			swans.splice(0,1)
+		}
+
 	});
 
 
